@@ -10,14 +10,20 @@
           <el-input prefix-icon="el-icon-lock" placeholder="Please input password" show-password  v-model="form.password"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-select v-model="form.role" placeholder="请选择角色" style="width: 100%">
+            <el-option label="ADMIN" value="ADMIN"></el-option>
+            <el-option label="USER" value="USER"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button style="width: 100%; background-color: #333; border-color: #333; color: white" @click="login">LOGIN</el-button>
         </el-form-item>
-<!--        <div style="display: flex; align-items: center">-->
-<!--          <div style="flex: 1"></div>-->
-<!--          <div style="flex: 1; text-align: right">-->
-<!--            dont have a account？please <a href="/register">register</a>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div style="display: flex; align-items: center">
+          <div style="flex: 1"></div>
+          <div style="flex: 1; text-align: right">
+            Dont have a account？Please <a href="/register">Register</a>
+          </div>
+        </div>
       </el-form>
     </div>
   </div>
@@ -28,7 +34,7 @@ export default {
   name: "Login",
   data() {
     return {
-      form: { role: 'ADMIN' },
+      form: {},
       rules: {
         username: [
           { required: true, message: 'please input username', trigger: 'blur' },
