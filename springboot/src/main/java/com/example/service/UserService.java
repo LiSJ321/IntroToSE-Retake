@@ -92,6 +92,7 @@ public class UserService {
         List<User> list = userMapper.selectAll(user);
         return PageInfo.of(list);
     }
+
     public Account login(Account account) {
         Account dbUser = userMapper.selectByUsername(account.getUsername());
         if (ObjectUtil.isNull(dbUser)) {
@@ -106,6 +107,7 @@ public class UserService {
         dbUser.setToken(token);
         return dbUser;
     }
+    //密码修改
     public void updatePassword(Account account) {
         User dbUser = userMapper.selectByUsername(account.getUsername());
         if (ObjectUtil.isNull(dbUser)) {
@@ -116,5 +118,11 @@ public class UserService {
         }
         dbUser.setPassword(account.getNewPassword());
         userMapper.updateById(dbUser);
+    }
+//注册
+    public void register(Account account) {
+        User user = new User();
+        BeanUtils.copyProperties(account, user);
+        add(user);
     }
 }

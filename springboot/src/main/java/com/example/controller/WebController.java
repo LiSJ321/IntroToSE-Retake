@@ -58,6 +58,9 @@ public class WebController {
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             adminService.register(account);
         }
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            userService.register(account);
+        }
         return Result.success();
     }
 
