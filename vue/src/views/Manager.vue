@@ -40,9 +40,10 @@
           </el-menu-item>
           <el-submenu index="info">
             <template slot="title">
-              <i class="el-icon-menu"></i><span>Information management</span>
+              <i class="el-icon-menu"></i><span>Infor management</span>
             </template>
-            <el-menu-item index="/notice">Announcement</el-menu-item>
+            <el-menu-item index="/notice">Notice</el-menu-item>
+            <el-menu-item index="/animal">Animal Information</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">
