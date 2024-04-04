@@ -3,7 +3,7 @@
     <!--  头部  -->
     <div class="manager-header">
       <div class="manager-header-left">
-        <img src="@/assets/imgs/logo.png" />
+        <img src="@/assets/imgs/img_1.png" style="border-radius: 50%" />
         <div class="title">Pet Home</div>
       </div>
 
@@ -36,7 +36,7 @@
         <el-menu :default-openeds="['info', 'user']" router style="border: none" :default-active="$route.path">
           <el-menu-item index="/home">
             <i class="el-icon-s-home"></i>
-            <span slot="title">System Homepage</span>
+            <span slot="title">Homepage</span>
           </el-menu-item>
           <el-submenu index="info">
             <template slot="title">

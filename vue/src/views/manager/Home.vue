@@ -5,7 +5,7 @@
     </div>
 
     <div style="display: flex; margin: 10px 0">
-      <div style="width: 50%;" class="card">
+      <div style="width: 100%;" class="card">
         <div style="margin-bottom: 30px; font-size: 20px; font-weight: bold">Announcement list</div>
         <div >
           <el-timeline  reverse slot="reference">
@@ -20,6 +20,23 @@
             </el-timeline-item>
           </el-timeline>
         </div>
+        <!--   宠物卡片区     -->
+        <div style="margin-bottom: 30px; font-size: 20px; font-weight: bold; color: #817a70">If you like me, adopt me~</div>
+        <div>
+          <el-row>
+            <el-col :span="6" v-for="item in animalData">
+              <div class="card" style="background-color: #f8f4e8; text-align: center">
+                <img :src="item.img" alt="" style="width: 70px; height: 80px; border-radius: 50%">
+                <div style="font-weight: bold; color: #817a70; margin-top: 5px">{{ item.name }}（{{ item.type }}）</div>
+                <div style="color: #575353; font-size: 13px; margin-top: 5px">Sex：{{ item.sex }}， Age：{{ item.age }}， <span style="color: #7d3d0c">{{ item.status }}</span></div>
+                <div style="margin-top: 15px; color: #4b4949; text-align: left">Get to know me：{{ item.descr }}</div>
+                <div>
+                  <el-button type="success" size="mini" style="margin-top: 20px">Adopt</el-button>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
   </div>
@@ -32,13 +49,26 @@ export default {
   data() {
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      notices: []
+      notices: [],
+      animalData: [],
     }
   },
   created() {
     this.$request.get('/notice/selectAll').then(res => {
       this.notices = res.data || []
     })
+    this.loadAnimal()
+  },
+  methods: {
+    loadAnimal() {
+      this.$request.get('/animal/selectAll').then(res => {
+        if (res.code === '200') {
+          this.animalData = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    }
   }
 }
 </script>

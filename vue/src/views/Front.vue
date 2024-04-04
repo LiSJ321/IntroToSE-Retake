@@ -4,7 +4,7 @@
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left">
-        <img src="@/assets/imgs/logo.png" alt="">
+        <img src="@/assets/imgs/img_1.png" alt="">
         <div class="title">Project front desk</div>
       </div>
       <div class="front-header-center">
