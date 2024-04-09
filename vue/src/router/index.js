@@ -25,6 +25,7 @@ const routes = [
       { path: 'password', name: 'Password', meta: { name: 'Password' }, component: () => import('../views/manager/Password') },
       { path: 'notice', name: 'Notice', meta: { name: 'Notice' }, component: () => import('../views/manager/Notice') },
       { path: 'animal', name: 'Animal', meta: { name: 'AnimalInformation' }, component: () => import('../views/manager/Animal') },
+      { path: 'adopt', name: 'Adopt', meta: { name: 'AdoptRecords' }, component: () => import('../views/manager/Adopt') },
     ]
   },
   {

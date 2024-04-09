@@ -1,10 +1,12 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
-import com.example.entity.Account;
+import com.example.common.enums.AdoptStatusEnum;
+import com.example.common.enums.AnimalStatusEnum;
 import com.example.entity.Adopt;
+import com.example.entity.Animal;
 import com.example.mapper.AdoptMapper;
-import com.example.utils.TokenUtils;
+import com.example.mapper.AnimalMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,15 @@ public class AdoptService {
 
     @Resource
     private AdoptMapper adoptMapper;
+    @Resource
+    private AnimalMapper animalMapper;
 
     /**
      * 新增
      */
     public void add(Adopt adopt) {
+        adopt.setTime(DateUtil.now());
+        adopt.setStatus(AdoptStatusEnum.ADOPT_YES.status);
         adoptMapper.insert(adopt);
     }
 
@@ -48,6 +54,12 @@ public class AdoptService {
      * 修改
      */
     public void updateById(Adopt adopt) {
+        if (AnimalStatusEnum.ADOPT_CANCEL.status.equals(adopt.getStatus())) {
+            // 已归还我们需要把宠物信息的状态同步成 待领养
+            Animal animal = animalMapper.selectById(adopt.getAnimalId());
+            animal.setStatus(AnimalStatusEnum.ADOPT_NO.status);
+            animalMapper.updateById(animal);
+        }
         adoptMapper.updateById(adopt);
     }
 

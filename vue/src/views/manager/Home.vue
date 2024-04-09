@@ -31,7 +31,7 @@
                 <div style="color: #575353; font-size: 13px; margin-top: 5px">Sex：{{ item.sex }}， Age：{{ item.age }}， <span style="color: #7d3d0c">{{ item.status }}</span></div>
                 <div style="margin-top: 15px; color: #4b4949; text-align: left">Get to know me：{{ item.descr }}</div>
                 <div>
-                  <el-button type="success" size="mini" style="margin-top: 20px">Adopt</el-button>
+                  <el-button type="success" size="mini" style="margin-top: 20px":disabled="item.status === 'Adopted'" @click="adopt(item)">Adopt</el-button>
                 </div>
               </div>
             </el-col>
@@ -68,7 +68,40 @@ export default {
           this.$message.error(res.msg)
         }
       })
+    },
+    adopt(animal) {
+      if (this.user.role === 'ADMIN') {
+        this.$message.warning('Your role does not support this operation')
+        return
+      }
+      let data = JSON.parse(JSON.stringify(animal))
+      data.status = 'Adopted'
+    this.$request.put('/animal/update',data).then(res=>{
+      if(res.code==='200'){
+        this.$message.success('The adoption is successful, please treat it well')
+        this.loadAnimal()
+        //向领养记录同步一条信息
+        let adoptData ={
+          userId: this.user.id,
+          animalId: data.id
+        }
+        this.$request.post('/adopt/add',adoptData).then(res =>{
+          if(res.code === '200'){
+            this.$message.success('The adoption is successful, please treat it well')
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+      }
+    })
     }
   }
 }
 </script>
+<style scoped>
+.el-col-5{
+  width: 20%;
+  max-width: 20%;
+  padding: 10px 10px;
+}
+</style>

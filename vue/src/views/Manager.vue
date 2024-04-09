@@ -44,6 +44,7 @@
             </template>
             <el-menu-item index="/notice">Notice</el-menu-item>
             <el-menu-item index="/animal">Animal Information</el-menu-item>
+            <el-menu-item index="/adopt">Adoption Records</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">
