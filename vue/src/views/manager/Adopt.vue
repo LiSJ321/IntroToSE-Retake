@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="search">
-      <el-input placeholder="Please enter title to query" style="width: 200px" v-model="title"></el-input>
+      <el-select v-model="animalId" placeholder="please choose pet" style="width: 200px" v-if="user.role === 'ADMIN'">
+        <el-option v-for="item in animalData" :label="item.name" :value="item.id"></el-option>
+      </el-select>
+      <el-select v-model="status" placeholder="Please choose status" style="width: 200px; margin-left: 5px">
+        <el-option label="under adoption" value="under adoption"></el-option>
+        <el-option label="has been returned" value="has been returned"></el-option>
+      </el-select>
       <el-button type="info" plain style="margin-left: 10px" @click="load(1)">Inquiry</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">Reset</el-button>
     </div>
@@ -54,17 +60,29 @@ export default {
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
-      title: null,
+      status: null,
+      animalId: null,
       fromVisible: false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      ids: []
+      ids: [],
+      animalData:[]
     }
   },
   created() {
     this.load(1)
+    this.loadAnimal()
   },
   methods: {
+    loadAnimal() {
+      this.$request.get('/adopt/selectChange').then(res => {
+        if (res.code === '200') {
+          this.animalData = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
@@ -122,7 +140,8 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          title: this.title,
+          status: this.status,
+          animalId: this.animalId,
         }
       }).then(res => {
         this.tableData = res.data?.list
@@ -130,7 +149,8 @@ export default {
       })
     },
     reset() {
-      this.title = null
+      this.status = null
+      this.animalId = null
       this.load(1)
     },
     handleCurrentChange(pageNum) {

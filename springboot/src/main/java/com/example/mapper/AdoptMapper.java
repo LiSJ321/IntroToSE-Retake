@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.entity.Adopt;
 import com.example.entity.Notice;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -34,5 +35,8 @@ public interface AdoptMapper {
      * 查询所有
      */
     List<Adopt> selectAll(Adopt adopt);
+
+    @Select("select distinct animal_id from adopt group by animal_id")
+    List<Adopt> selectChange();
 
 }

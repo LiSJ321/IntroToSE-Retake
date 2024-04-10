@@ -16,7 +16,8 @@
         <where>
             <if test="id != null"> and id= #{id}</if>
             <if test="animalId != null"> and animal_id = #{animalId}</if>
-            <if test="status != null"> and status = #{status}</if>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="status != null"> and adopt.status = #{status}</if>
         </where>
         order by id desc
     </select>

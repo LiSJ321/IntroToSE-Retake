@@ -1,17 +1,22 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.example.common.enums.AdoptStatusEnum;
 import com.example.common.enums.AnimalStatusEnum;
+import com.example.common.enums.RoleEnum;
+import com.example.entity.Account;
 import com.example.entity.Adopt;
 import com.example.entity.Animal;
 import com.example.mapper.AdoptMapper;
 import com.example.mapper.AnimalMapper;
+import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,9 +86,25 @@ public class AdoptService {
      * 分页查询
      */
     public PageInfo<Adopt> selectPage(Adopt adopt, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if (RoleEnum.USER.name().equals(currentUser.getRole())) {
+            adopt.setUserId(currentUser.getId());
+        }
         PageHelper.startPage(pageNum, pageSize);
         List<Adopt> list = adoptMapper.selectAll(adopt);
         return PageInfo.of(list);
+    }
+
+    public List<Animal> selectChange() {
+        List<Adopt> adopts = adoptMapper.selectChange();
+        List<Animal> list = new ArrayList<>();
+        for (Adopt adopt : adopts) {
+            Animal animal = animalMapper.selectById(adopt.getAnimalId());
+            if (ObjectUtil.isNotEmpty(animal)) {
+                list.add(animal);
+            }
+        }
+        return list;
     }
 
 }
