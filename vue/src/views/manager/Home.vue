@@ -78,7 +78,7 @@ export default {
       data.status = 'Adopted'
     this.$request.put('/animal/update',data).then(res=>{
       if(res.code==='200'){
-        this.$message.success('The adoption is successful, please treat it well')
+        this.$message.success('The adoption is successful')
         this.loadAnimal()
         //向领养记录同步一条信息
         let adoptData ={
@@ -87,7 +87,7 @@ export default {
         }
         this.$request.post('/adopt/add',adoptData).then(res =>{
           if(res.code === '200'){
-            this.$message.success('The adoption is successful, please treat it well')
+            this.$message.success('Please treat it well')
           }else{
             this.$message.error(res.msg)
           }
