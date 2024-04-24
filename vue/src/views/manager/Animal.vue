@@ -7,8 +7,8 @@
     </div>
 
     <div class="operation">
-      <el-button type="primary" plain @click="handleAdd">Add</el-button>
-      <el-button type="danger" plain @click="delBatch">BatchDeletion</el-button>
+      <el-button type="primary" v-if="user.role === 'ADMIN'"plain @click="handleAdd">Add</el-button>
+      <el-button type="danger" v-if="user.role === 'ADMIN'"plain @click="delBatch">BatchDeletion</el-button>
     </div>
 
     <div class="table">
@@ -32,8 +32,8 @@
 
         <el-table-column label="Operate" width="180" align="center">
           <template v-slot="scope">
-            <el-button plain type="primary" @click="handleEdit(scope.row)" size="mini">Edit</el-button>
-            <el-button plain type="danger" size="mini" @click=del(scope.row.id)>Delete</el-button>
+            <el-button plain type="primary"v-if="user.role === 'ADMIN'" @click="handleEdit(scope.row)" size="mini">Edit</el-button>
+            <el-button plain type="danger" size="mini" v-if="user.role === 'ADMIN'"@click=del(scope.row.id)>Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

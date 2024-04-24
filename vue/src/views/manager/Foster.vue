@@ -59,7 +59,7 @@
                           placeholder="please choose date">
           </el-date-picker>
         </el-form-item>
-        <el-form-item prop="days" label="Days of foster care">
+        <el-form-item prop="days" label="Days">
           <el-input v-model="form.days" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
