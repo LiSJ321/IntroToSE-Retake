@@ -78,4 +78,8 @@ public class RoomService {
         return PageInfo.of(list);
     }
 
+    public List<Room> selectAllIdle(Room room) {
+        room.setStatus(RoomStatusEnum.ROOM_OK.status);
+        return roomMapper.selectAll(room);
+    }
 }

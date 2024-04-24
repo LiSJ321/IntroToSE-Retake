@@ -75,6 +75,12 @@ public class RoomController {
         return Result.success(list);
     }
 
+    @GetMapping("/selectAllIdle")
+    public Result selectAllIdle(Room room){
+        List<Room> list =roomService.selectAllIdle(room);
+        return Result.success(list);
+    }
+
     /**
      * 分页查询
      */
