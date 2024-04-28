@@ -29,6 +29,7 @@
             <el-button plain type="primary" v-if="user.role === 'USER' && scope.row.status === 'Waiting'" @click="handleEdit(scope.row)" size="mini">Edit</el-button>
             <el-button plain type="danger" v-if="user.role === 'USER' && scope.row.status === 'Waiting'" size="mini" @click=del(scope.row.id)>Revoke</el-button>
             <el-button plain type="primary" v-if="user.role === 'ADMIN' && scope.row.status === 'Waiting'" size="mini" @click=roomInit(scope.row)>Assign room</el-button>
+            <el-button plain type="primary" v-if="user.role === 'ADMIN' && scope.row.status === 'Under foster care'" size="mini" @click=back(scope.row)>User Taken Back</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,7 +61,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="days" label="Days">
-          <el-input v-model="form.days" autocomplete="off"></el-input>
+          <el-input-number v-model="form.days" :min="1" :max="14"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -112,6 +113,11 @@ export default {
     this.loadRooms()
   },
   methods: {
+    back(row) {
+      this.form = JSON.parse(JSON.stringify(row))
+      this.form.status = 'Finished'
+      this.save()
+    },
     fosterSave() {
       this.form.status = 'Under foster care'
       this.$request.put('/foster/update', this.form).then(res => {

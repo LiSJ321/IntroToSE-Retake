@@ -61,11 +61,18 @@ public class FosterService {
     public void updateById(Foster foster) {
         fosterMapper.updateById(foster);
 
-        // 对应的房间状态要修改成占用，房间对应的在养宠物也要更新
         Room room = roomMapper.selectById(foster.getRoomId());
         if (ObjectUtil.isNotEmpty(room)) {
-            room.setStatus(RoomStatusEnum.ROOM_NO.status);
-            room.setAnimal(foster.getName());
+            if (FosterStatusEnum.ADOPTING.status.equals(foster.getStatus())) {
+                // 对应的房间状态要修改成占用，房间对应的在养宠物也要更新
+                room.setStatus(RoomStatusEnum.ROOM_NO.status);
+                room.setAnimal(foster.getName());
+            }
+            if (FosterStatusEnum.ADOPTED.status.equals(foster.getStatus())) {
+                // 对应的房间状态要修改成空闲，房间对应的在养宠物也要去掉
+                room.setStatus(RoomStatusEnum.ROOM_OK.status);
+                room.setAnimal("");
+            }
             roomMapper.updateById(room);
         }
     }
