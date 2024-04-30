@@ -47,6 +47,7 @@
             <el-menu-item index="/adopt">Adoption Records</el-menu-item>
             <el-menu-item index="/room">Room Information</el-menu-item>
             <el-menu-item index="/foster">Foster Care</el-menu-item>
+            <el-menu-item index="/goods">Pet Supplies</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">

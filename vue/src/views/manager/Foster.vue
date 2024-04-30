@@ -58,6 +58,7 @@
                           v-model="form.time"
                           type="date" value-format="yyyy-MM-dd"
                           placeholder="please choose date">
+
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="days" label="Days">
