@@ -22,7 +22,7 @@
                   <el-input-number v-model="item.tmpNum" :min="1" :max="item.num" size="mini"></el-input-number>
                 </div>
                 <div style="margin-top: 15px">
-                  <el-button type="warning" size="mini" :disabled="item.num === 0">Purchase</el-button>
+                  <el-button type="warning" size="mini" :disabled="item.num === 0"@click="handleEdit(item)">Purchase</el-button>
                 </div>
               </div>
             </div>
@@ -41,6 +41,23 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog title="Delivery Information" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+      <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
+        <el-form-item prop="username" label="Receiver">
+          <el-input v-model="form.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="phone" label="Telephone">
+          <el-input v-model="form.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="address" label="Address">
+          <el-input v-model="form.address" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fromVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="buy">Confirm</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -59,6 +76,15 @@ export default {
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
+        username: [
+          {required: true, message: 'Please input Receiver', trigger: 'blur'},
+        ],
+        phone: [
+          {required: true, message: 'Please input Phone number', trigger: 'blur'},
+        ],
+        address: [
+          {required: true, message: 'Please input Address', trigger: 'blur'},
+        ],
       },
       ids: []
     }
@@ -67,13 +93,30 @@ export default {
     this.load(1)
   },
   methods: {
-    handleAdd() {   // 新增数据
-      this.form = {}  // 新增数据的时候清空数据
-      this.fromVisible = true   // 打开弹窗
-    },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
       this.fromVisible = true   // 打开弹窗
+    },
+    buy() {
+      let data = {
+        userId: this.user.id,
+        goodsId: this.form.id,
+        username: this.form.username,
+        phone: this.form.phone,
+        address: this.form.address,
+        num: this.form.tmpNum,
+        status: '待发货',
+        price: parseFloat(this.form.tmpNum) * parseFloat(this.form.price)
+      }
+      this.$request.post('/orders/add', data).then(res => {
+        if (res.code === '200') {
+          this.$message.success('购买成功')
+          this.fromVisible = false
+          this.load(1)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
