@@ -12,7 +12,7 @@ public class Orders implements Serializable {
     private Integer id;
     private Integer userId;
     private String orderId;
-    private String goodsId;
+    private Integer goodsId;
     private String time;
     private String username;
     private String phone;
@@ -129,11 +129,11 @@ public class Orders implements Serializable {
         this.goodsName = goodsName;
     }
 
-    public String getGoodsId() {
+    public Integer getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(String goodsId) {
+    public void setGoodsId(Integer goodsId) {
         this.goodsId = goodsId;
     }
 }

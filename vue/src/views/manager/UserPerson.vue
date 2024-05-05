@@ -30,9 +30,21 @@
         </el-form-item>
         <div style="text-align: center; margin-bottom: 20px">
           <el-button type="primary" @click="update">SAVE</el-button>
+          <el-button type="warning" @click="recharge">Top Up</el-button>
         </div>
       </el-form>
     </el-card>
+    <el-dialog title="Top Up" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+      <el-form label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
+        <el-form-item prop="account" label="Amount">
+          <el-input v-model="account" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fromVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="pay">Confirm</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -41,13 +53,39 @@ export default {
   name: "UserPerson",
   data() {
     return {
-      user: JSON.parse(localStorage.getItem('xm-user') || '{}')
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      account: null,
+      fromVisible: false,
+      rules: {
+        account: [
+          {required: true, message: 'Please input amount', trigger: 'blur'},
+        ]
+      },
     }
   },
   created() {
-
+    this.getPerson()
   },
   methods: {
+    getPerson() {
+      this.$request.get('/user/selectById/' + this.user.id).then(res => {
+        if (res.code === '200') {
+          this.user = res.data
+          localStorage.setItem('xm-user', JSON.stringify(this.user))
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    recharge(){
+      this.account = 100
+      this.fromVisible = true
+    },
+    pay(){
+      this.user.account = parseFloat(this.account) + parseFloat(this.user.account)
+      this.update()
+      this.fromVisible = false
+    },
     update() {
       // 保存当前的用户信息到数据库
       this.$request.put('/user/update', this.user).then(res => {

@@ -110,7 +110,7 @@ export default {
       }
       this.$request.post('/orders/add', data).then(res => {
         if (res.code === '200') {
-          this.$message.success('购买成功')
+          this.$message.success('Purchase successful')
           this.fromVisible = false
           this.load(1)
         } else {

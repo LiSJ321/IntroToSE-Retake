@@ -14,6 +14,7 @@ public enum ResultCodeEnum {
     USER_ACCOUNT_ERROR("5003", "USER_ACCOUNT_ERROR"),
     USER_NOT_EXIST_ERROR("5004", "USER_NOT_EXIST_ERROR"),
     PARAM_PASSWORD_ERROR("5005", " PARAM_PASSWORD_ERROR"),
+    ACCOUNT_LOW_ERROR("5006","Balance is not enough,please top up")
     ;
 
     public String code;

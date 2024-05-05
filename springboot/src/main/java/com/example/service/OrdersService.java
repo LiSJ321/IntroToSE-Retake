@@ -1,11 +1,13 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
-import com.example.entity.Account;
-import com.example.entity.Notice;
-import com.example.entity.Orders;
+import com.example.common.enums.ResultCodeEnum;
+import com.example.entity.*;
+import com.example.exception.CustomException;
+import com.example.mapper.GoodsMapper;
 import com.example.mapper.NoticeMapper;
 import com.example.mapper.OrdersMapper;
+import com.example.mapper.UserMapper;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -23,16 +25,30 @@ public class OrdersService {
 
     @Resource
     private OrdersMapper ordersMapper;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private GoodsMapper goodsMapper;
 
     /**
      * 新增
      */
     public void add(Orders orders) {
-        // TODO 先判断余额够不够
+        //先判断余额够不够
+        User user = userMapper.selectById(orders.getUserId());
+        if (user.getAccount() < orders.getPrice()) {
+            throw new CustomException(ResultCodeEnum.ACCOUNT_LOW_ERROR);
+        }
         orders.setTime(DateUtil.now());
         orders.setOrderId(DateUtil.format(new Date(), "yyyyMMddHHmmss"));
         ordersMapper.insert(orders);
-        // TODO 减库存
+        // 减用户余额
+        user.setAccount(user.getAccount() - orders.getPrice());
+        userMapper.updateById(user);
+        // 减商品库存
+        Goods goods = goodsMapper.selectById(orders.getGoodsId());
+        goods.setNum(goods.getNum() - orders.getNum());
+        goodsMapper.updateById(goods);
     }
 
     /**
