@@ -9,9 +9,10 @@
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Orders">
-        select
-        <include refid="Base_Column_List" />
+        select orders.*, goods.name as goodsName, goods.img as goodsImg, user.name as buyName
         from orders
+        left join goods on orders.goods_id = goods.id
+        left join user on orders.user_id = user.id
         <where>
             <if test="id != null"> and id= #{id}</if>
             <if test="orderId != null"> and order_id = #{orderId}</if>

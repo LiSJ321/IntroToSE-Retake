@@ -21,7 +21,7 @@ public class Orders implements Serializable {
     private String status;
     private Double price;
 
-    private String userName;
+    private String buyName;
     private String goodsImg;
     private String goodsName;
 
@@ -105,12 +105,12 @@ public class Orders implements Serializable {
         this.price = price;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getBuyName() {
+        return buyName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setBuyName(String buyName) {
+        this.buyName = buyName;
     }
 
     public String getGoodsImg() {

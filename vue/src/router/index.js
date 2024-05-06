@@ -30,6 +30,7 @@ const routes = [
       { path: 'foster', name: 'Foster', meta: { name: 'foster care info' }, component: () => import('../views/manager/Foster') },
       { path: 'goods', name: 'Goods', meta: { name: 'pet supplies' }, component: () => import('../views/manager/Goods') },
       { path: 'goodsUser', name: 'GoodsUser', meta: { name: 'pet supplies' }, component: () => import('../views/manager/GoodsUser') },
+      { path: 'orders', name: 'Orders', meta: { name: 'ordersInformation' }, component: () => import('../views/manager/Orders') },
     ]
   },
   {

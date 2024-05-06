@@ -2,6 +2,7 @@ package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.example.common.enums.ResultCodeEnum;
+import com.example.common.enums.RoleEnum;
 import com.example.entity.*;
 import com.example.exception.CustomException;
 import com.example.mapper.GoodsMapper;
@@ -92,6 +93,10 @@ public class OrdersService {
      * 分页查询
      */
     public PageInfo<Orders> selectPage(Orders orders, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if (RoleEnum.USER.name().equals(currentUser.getRole())) {
+            orders.setUserId(currentUser.getId());
+        }
         PageHelper.startPage(pageNum, pageSize);
         List<Orders> list = ordersMapper.selectAll(orders);
         return PageInfo.of(list);

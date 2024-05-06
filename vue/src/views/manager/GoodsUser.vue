@@ -105,7 +105,7 @@ export default {
         phone: this.form.phone,
         address: this.form.address,
         num: this.form.tmpNum,
-        status: '待发货',
+        status: 'Shipping',
         price: parseFloat(this.form.tmpNum) * parseFloat(this.form.price)
       }
       this.$request.post('/orders/add', data).then(res => {
