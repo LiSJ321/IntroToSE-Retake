@@ -40,7 +40,7 @@
           </el-menu-item>
           <el-submenu index="info">
             <template slot="title">
-              <i class="el-icon-menu"></i><span>Infor management</span>
+              <i class="el-icon-menu"></i><span>Pet Home</span>
             </template>
             <el-menu-item index="/notice">Notice</el-menu-item>
             <el-menu-item index="/animal">Animal Information</el-menu-item>
@@ -49,15 +49,11 @@
             <el-menu-item index="/foster">Foster Care</el-menu-item>
             <el-menu-item index="/goods" v-if="user.role === 'ADMIN'">Pet Supplies</el-menu-item>
             <el-menu-item index="/goodsUser" v-else>Pet Supplies</el-menu-item>
+            <el-menu-item index="/admin" v-if="user.role === 'ADMIN'">Admin Information</el-menu-item>
+            <el-menu-item index="/user" v-if="user.role === 'ADMIN'">User Information</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="user">
-            <template slot="title">
-              <i class="el-icon-menu"></i><span>User Management</span>
-            </template>
-            <el-menu-item index="/admin">Admin Information</el-menu-item>
-            <el-menu-item index="/user">User Information</el-menu-item>
-          </el-submenu>
+
         </el-menu>
       </div>
 
