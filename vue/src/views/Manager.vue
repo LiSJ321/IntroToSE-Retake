@@ -42,20 +42,25 @@
             <template slot="title">
               <i class="el-icon-menu"></i><span>Pet Home</span>
             </template>
-            <el-menu-item index="/notice">Notice</el-menu-item>
+            <el-menu-item index="/notice"v-if="user.role === 'ADMIN'">Notice</el-menu-item>
             <el-menu-item index="/animal">Animal Information</el-menu-item>
             <el-menu-item index="/adopt">Adoption Records</el-menu-item>
-            <el-menu-item index="/room">Room Information</el-menu-item>
+            <el-menu-item index="/room"v-if="user.role === 'ADMIN'">Room Information</el-menu-item>
             <el-menu-item index="/foster">Foster Care</el-menu-item>
             <el-menu-item index="/goods" v-if="user.role === 'ADMIN'">Pet Supplies</el-menu-item>
             <el-menu-item index="/goodsUser" v-else>Pet Supplies</el-menu-item>
             <el-menu-item index="/orders">Orders</el-menu-item>
             <el-menu-item index="/submit">Help Homeless Pets</el-menu-item>
+
+          </el-submenu>
+
+          <el-submenu index="user" v-if="user.role === 'ADMIN'">
+            <template slot="title">
+              <i class="el-icon-menu"></i><span>User manage</span>
+            </template>
             <el-menu-item index="/admin" v-if="user.role === 'ADMIN'">Admin Information</el-menu-item>
             <el-menu-item index="/user" v-if="user.role === 'ADMIN'">User Information</el-menu-item>
           </el-submenu>
-
-
         </el-menu>
       </div>
 
