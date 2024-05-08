@@ -50,6 +50,7 @@
             <el-menu-item index="/goods" v-if="user.role === 'ADMIN'">Pet Supplies</el-menu-item>
             <el-menu-item index="/goodsUser" v-else>Pet Supplies</el-menu-item>
             <el-menu-item index="/orders">Orders</el-menu-item>
+            <el-menu-item index="/submit">Help Homeless Pets</el-menu-item>
             <el-menu-item index="/admin" v-if="user.role === 'ADMIN'">Admin Information</el-menu-item>
             <el-menu-item index="/user" v-if="user.role === 'ADMIN'">User Information</el-menu-item>
           </el-submenu>
